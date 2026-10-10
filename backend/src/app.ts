@@ -7,7 +7,8 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 import path from 'node:path';
-import { config } from './config.js';
+import { config, validateConfig } from './config.js';
+import { connectDatabase } from './database.js';
 import { auth } from './routes/auth.js';
 import { borrower } from './routes/borrower.js';
 import { sales } from './routes/sales.js';
@@ -17,6 +18,7 @@ import { collection } from './routes/collection.js';
 import { operations } from './routes/operations.js';
 import { authenticate } from './middleware/auth.js';
 import { User } from './models/User.js';
+import { Loan } from './models/Loan.js';
 
 // Helmet's CommonJS entry exports the callable middleware directly. Loading it
 // explicitly avoids default-export interop differences between build environments.
@@ -27,6 +29,26 @@ export const app = express();
 app.disable('x-powered-by');
 app.use(helmet());
 app.use(cors({ origin: config.frontend, credentials: true }));
+app.get('/', (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.type('text/plain').send(config.production ? 'Backend production is live!' : 'Backend development is live!');
+});
+// Vercel invokes the exported app without running the local server entry point.
+// Share initialization across concurrent requests and reuse the warm connection.
+let databaseReady: Promise<void> | undefined;
+if (process.env.VERCEL === '1') {
+  app.use(async (_req, _res, next) => {
+    try {
+      databaseReady ??= (async () => {
+        validateConfig();
+        await connectDatabase();
+        await Promise.all([User.init(), Loan.init()]);
+      })().catch(error => { databaseReady = undefined; throw error; });
+      await databaseReady;
+      next();
+    } catch (error) { next(error); }
+  });
+}
 app.use(express.json({ limit: '32kb' }));
 app.use(cookieParser());
 app.use('/api', rateLimit({ windowMs: 60000, limit: 300, standardHeaders: 'draft-8', legacyHeaders: false,
@@ -69,3 +91,5 @@ app.use((error: any, _req: express.Request, res: express.Response, _next: expres
   console.error(error);
   res.status(500).json({ message: 'Something went wrong. Please try again.' });
 });
+
+export default app;

@@ -67,6 +67,8 @@ NEXT_PUBLIC_API_URL=http://localhost:4000/api
 
 Next.js also reads `.env`; values in `.env.local` take precedence. Restart the development server after changing configuration. Public environment variables are included in the browser build, so do not store secrets in them. Changes to the production API URL require a new build.
 
+Environment-specific API URLs are configured in `.env.development` (`http://localhost:4000/api`) and `.env.production` (`https://lms-backend-seven-pied.vercel.app/api`). Development uses the local API; production builds use the deployed API. An existing `.env.local` or hosting environment variable can override these settings. On the backend, `FRONTEND_URL` must match the frontend origin, not the API URL.
+
 ### Development
 
 Start the backend in a separate terminal, then run:
