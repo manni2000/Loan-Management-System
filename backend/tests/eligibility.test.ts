@@ -1,4 +1,6 @@
+// @ts-ignore Node's test runner is available at runtime; typings may not be installed.
 import { test } from 'node:test';
+// @ts-ignore Node's assert module is available at runtime; typings may not be installed.
 import assert from 'node:assert/strict';
 import { eligibility, quote, type Personal } from '../src/services/eligibility.js';
 const now = new Date('2026-10-10T12:00:00Z');
