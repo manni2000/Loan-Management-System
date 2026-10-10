@@ -9,7 +9,7 @@ import { authenticate } from '../middleware/auth.js';
 
 export const auth = Router();
 const credentials = z.object({ email: z.email().trim().toLowerCase().max(254), password: z.string().min(8).max(72) });
-const cookieOptions = { httpOnly: true, secure: config.production, sameSite: 'lax' as const, path: '/' };
+const cookieOptions = { httpOnly: true, secure: config.production, sameSite: config.production ? 'none' as const : 'lax' as const, path: '/' };
 auth.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 100, standardHeaders: 'draft-8', legacyHeaders: false,
   message: { message: 'Too many authentication requests. Try again in 15 minutes.' } }));
 function session(res: any, user: any) {

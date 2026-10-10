@@ -103,7 +103,7 @@ npm run build
 
 Tests use isolated, temporary MongoDB data and upload storage. They exercise all role/module combinations, password hashing, registration role escalation prevention, eligibility boundaries, file validation, state transitions, exact loan math, duplicate UTRs across loans, overpayment, concurrent final payments, rejection, and logout/origin protection.
 
-For production: configure a private MongoDB, strong JWT_SECRET, `NODE_ENV=production`, explicit `FRONTEND_URL`, and frontend `NEXT_PUBLIC_API_URL`; build both apps, use `npm start` in each, and serve both through HTTPS on the same site. The API rejects unapproved browser origins and cross-site mutations. Cross-site frontend/API cookie deployments are not supported by the default SameSite policy. Persist the backend upload directory or replace local storage with private object storage. Do not run the local demo launcher in production.
+For production: configure a private MongoDB, strong JWT_SECRET, `NODE_ENV=production`, explicit `FRONTEND_URL`, and frontend `NEXT_PUBLIC_API_URL`; build both apps, use `npm start` in each, and serve both through HTTPS. The API rejects unapproved browser origins and allows cross-site mutations only from the configured FRONTEND_URL origin. Production session cookies use SameSite=None and Secure for separate frontend/API domains; browsers must allow cross-site cookies. Persist the backend upload directory or replace local storage with private object storage. Do not run the local demo launcher in production.
 
 UI verification in this environment consisted of a successful Next.js production build and HTTP checks; automated browser visual verification was unavailable.
 
@@ -111,6 +111,6 @@ UI verification in this environment consisted of a successful Next.js production
 
 Set the Vercel project's **Root Directory** to `backend`. The included `vercel.json` selects the Express framework, installs locked dependencies with `npm ci --include=dev`, and runs `npm run build`. Including development dependencies ensures the TypeScript compiler is available even when `NODE_ENV=production` is set during installation. Vercel uses the default export in `src/app.ts`; its request middleware initializes MongoDB and indexes once per warm instance. Local startup continues to use `src/server.ts`.
 
-Set `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` in Vercel's environment settings; optionally set `MONGODB_DNS_SERVERS`. Configure the frontend's `NEXT_PUBLIC_API_URL` to the deployed API URL including `/api`, and preserve the same-site HTTPS cookie requirements described above.
+Set `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` in Vercel's environment settings; optionally set `MONGODB_DNS_SERVERS`. Configure the frontend's `NEXT_PUBLIC_API_URL` to the deployed API URL including `/api`, and use HTTPS and the production cookie configuration described above.
 
 The current salary-slip implementation writes to local disk. It must be replaced with durable private object storage for Vercel: the deployed application filesystem is read-only and temporary storage is not persistent. The existing upload implementation is not production-ready on Vercel. See [Vercel's filesystem guidance](https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions).

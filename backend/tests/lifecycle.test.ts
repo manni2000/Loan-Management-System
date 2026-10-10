@@ -100,3 +100,16 @@ test('rejection is terminal and API protects against hostile origins',async()=>{
   assert.equal((await agents.Admin.post('/api/auth/logout').send({})).status,200);
   assert.equal((await agents.Admin.get('/api/operations/overview')).status,401);
 });
+
+test('configured frontend can log in cross-site while untrusted requests are rejected',async()=>{
+  const response=await request(app).post('/api/auth/login')
+    .set('Origin',config.frontend).set('Sec-Fetch-Site','cross-site')
+    .send({email:'borrower@test.com',password:'Lumen@123'});
+  assert.equal(response.status,200);
+  assert.ok(response.headers['set-cookie'][0].includes(config.production ? 'SameSite=None' : 'SameSite=Lax'));
+  if(config.production) assert.ok(response.headers['set-cookie'][0].includes('Secure'));
+  assert.equal((await request(app).post('/api/auth/logout')
+    .set('Origin','https://evil.example').set('Sec-Fetch-Site','cross-site').send({})).status,403);
+  assert.equal((await request(app).post('/api/auth/logout')
+    .set('Sec-Fetch-Site','cross-site').send({})).status,403);
+});
