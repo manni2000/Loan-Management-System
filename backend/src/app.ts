@@ -57,7 +57,7 @@ app.use((req, res, next) => {
   if (!['GET','HEAD','OPTIONS'].includes(req.method) && req.headers.origin && req.headers.origin !== config.frontend) {
     res.status(403).json({ message: 'Request origin is not allowed.' }); return;
   }
-  if (!['GET','HEAD','OPTIONS'].includes(req.method) && req.headers['sec-fetch-site'] === 'cross-site') {
+  if (!['GET','HEAD','OPTIONS'].includes(req.method) && req.headers['sec-fetch-site'] === 'cross-site' && req.headers.origin !== config.frontend) {
     res.status(403).json({ message: 'Cross-site requests are not allowed.' }); return;
   }
   next();
