@@ -109,7 +109,7 @@ UI verification in this environment consisted of a successful Next.js production
 
 ## Vercel backend deployment
 
-Set the Vercel project's **Root Directory** to `backend`. The included `vercel.json` selects the Express framework, installs locked dependencies with `npm ci`, and runs `npm run build`. Vercel uses the default export in `src/app.ts`; its request middleware initializes MongoDB and indexes once per warm instance. Local startup continues to use `src/server.ts`.
+Set the Vercel project's **Root Directory** to `backend`. The included `vercel.json` selects the Express framework, installs locked dependencies with `npm ci --include=dev`, and runs `npm run build`. Including development dependencies ensures the TypeScript compiler is available even when `NODE_ENV=production` is set during installation. Vercel uses the default export in `src/app.ts`; its request middleware initializes MongoDB and indexes once per warm instance. Local startup continues to use `src/server.ts`.
 
 Set `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` in Vercel's environment settings; optionally set `MONGODB_DNS_SERVERS`. Configure the frontend's `NEXT_PUBLIC_API_URL` to the deployed API URL including `/api`, and preserve the same-site HTTPS cookie requirements described above.
 
