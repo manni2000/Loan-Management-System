@@ -2,7 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
-import rateLimit from 'express-rate-limit';
+import { rateLimit } from 'express-rate-limit';
 import { config } from '../config.js';
 import { User, publicUser } from '../models/User.js';
 import { authenticate } from '../middleware/auth.js';

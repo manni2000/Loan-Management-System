@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import { createRequire } from 'node:module';
+import { rateLimit } from 'express-rate-limit';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
@@ -17,6 +17,11 @@ import { collection } from './routes/collection.js';
 import { operations } from './routes/operations.js';
 import { authenticate } from './middleware/auth.js';
 import { User } from './models/User.js';
+
+// Helmet's CommonJS entry exports the callable middleware directly. Loading it
+// explicitly avoids default-export interop differences between build environments.
+const require = createRequire(import.meta.url);
+const helmet: () => express.RequestHandler = require('helmet');
 
 export const app = express();
 app.disable('x-powered-by');
