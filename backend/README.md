@@ -48,7 +48,7 @@ The borrower account starts without an application for testing the complete flow
 - BRE lives on the server and runs when saving personal details and again when submitting. Client controls provide guidance only: a client can be altered or bypassed. Age is based on completed calendar years, inclusive 23–50. Salary must be at least ₹25,000; employment must be Salaried or Self-Employed. PAN uses `^[A-Z]{5}[0-9]{4}[A-Z]$` after uppercasing. This validates format, not government identity or PAN ownership.
 - Uploads accept PDF/JPG/PNG, max 5 MiB (5 × 1024 × 1024 bytes), with MIME, extension, and file signature checks. Files have random server-generated names, are stored outside the frontend, and are linked through the user record. Signature checks do not replace antivirus scanning in a production deployment.
 - Amount is ₹50,000–₹5,00,000; tenure is 30–365 whole days. Rate is fixed at 12% p.a. Interest = `round(principalPaise × 12 × tenure / 36500)`. Principal, interest, total, and paid amounts are integers in paise; all displayed rupee amounts divide by 100. The server calculates the authoritative quote and ignores client-supplied totals/status.
-- One submitted loan per borrower is supported in this assignment. Draft details are editable; submitted applications are locked. Rejected applications remain visible with the rejection reason. Reapplication and multiple loans are intentionally outside this implementation's scope.
+- One submitted loan per borrower is supported in this assignment. Draft details are editable; submitted applications are locked. Rejected applications remain visible with the rejection reason. Reapplication and multiple loans are intentionally outside this implementation scope.
 
 ## Collections and relationships
 
