@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { LayoutDashboard, UsersRound, ShieldCheck, ArrowUpRight, Wallet, LogOut, Menu, X, ArrowRight, LockKeyhole } from 'lucide-react';
 import { useAuth } from './AuthProvider';
+import { ErrorBox } from './UI';
 import { modules } from '@/lib/types';
 const icons = { Sales: UsersRound, Sanction: ShieldCheck, Disbursement: ArrowUpRight, Collection: Wallet };
 export function Shell({ children, portal = false }: { children: ReactNode; portal?: boolean }) {
@@ -57,7 +58,7 @@ export function Shell({ children, portal = false }: { children: ReactNode; porta
       </nav>
       <div className="sidebar-bottom">
         <div className="sidebar-user"><span className="avatar">{user?.name.split(' ').map(n => n[0]).slice(0,2).join('')}</span><div><strong>{user?.name}</strong><small>{user?.role} account</small></div><button title="Sign out" aria-label="Sign out" onClick={() => logout().catch(e => setError(e.message))}><LogOut size={17} /></button></div>
-        {error && <p className="error-text">{error}</p>}
+        {error && <ErrorBox message={error} />}
       </div>
     </aside>
     <div className="main-wrapper"><header className="topbar"><div className="breadcrumb">Workspace <span>/</span> <strong>{portal ? 'Borrower portal' : pathname === '/dashboard' ? 'Overview' : pathname.split('/').pop()!.replace(/^./, c => c.toUpperCase())}</strong></div><div className="topbar-right"><span className="workspace-status"><span /> Secure workspace</span><span className="role-pill">{user?.role}</span><span className="avatar small">{user?.name[0]}</span></div></header><main className="main-content">{children}</main><footer className="app-footer"><span>© {new Date().getFullYear()} Lumen. Lending, made clear.</span><span><LockKeyhole size={12} /> Your workspace is protected</span></footer></div>

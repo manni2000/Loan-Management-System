@@ -4,11 +4,12 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, ShieldCheck, Eye, EyeOff, Check, ArrowUpRight } from 'lucide-react';
 import { api, ApiError } from '@/lib/api';
 import { useAuth } from '@/components/AuthProvider';
+import { useNotify } from '@/components/Notifications';
 import { ErrorBox } from '@/components/UI';
 import { roles } from '@/lib/demo';
 import type { User } from '@/lib/types';
 export default function Login() {
-  const { user, setUser, loading } = useAuth(); const router = useRouter();
+  const { user, setUser, loading } = useAuth(); const notify = useNotify(); const router = useRouter();
   const [register, setRegister] = useState(false); const [show, setShow] = useState(false);
   const [email, setEmail] = useState(''); const [password, setPassword] = useState(''); const [name, setName] = useState('');
   const [busy, setBusy] = useState(false); const [error, setError] = useState('');
@@ -16,7 +17,7 @@ export default function Login() {
   useEffect(() => { if (!loading && user) router.replace(user.role === 'Borrower' ? '/portal' : '/dashboard'); }, [user, loading, router]);
   async function submit(e: React.FormEvent) {
     e.preventDefault(); setBusy(true); setError(''); setFailures([]);
-    try { const data = await api<{ user: User }>(`/auth/${register ? 'register' : 'login'}`, { method: 'POST', body: JSON.stringify({ email, password, ...(register ? { name } : {}) }) }); setUser(data.user); router.replace(data.user.role === 'Borrower' ? '/portal' : '/dashboard'); }
+    try { const data = await api<{ user: User }>(`/auth/${register ? 'register' : 'login'}`, { method: 'POST', body: JSON.stringify({ email, password, ...(register ? { name } : {}) }) }); setUser(data.user); notify({ kind: 'success', message: register ? 'Your borrower account has been created. Welcome to Lumen!' : 'Signed in successfully. Welcome back!' }); router.replace(data.user.role === 'Borrower' ? '/portal' : '/dashboard'); }
     catch (e) { setError((e as Error).message); setFailures(e instanceof ApiError ? e.failures : []); } finally { setBusy(false); }
   }
   return <main className="auth-page"><section className="auth-story"><div className="brand"><span className="brand-symbol">L</span>lumen<span className="brand-dot">.</span></div><div className="auth-story-content"><span className="eyebrow">A CLEARER WAY TO LEND</span><h1>Big possibilities.<br />Simple lending.</h1><p>From the first application to the final repayment, bring every step together in one thoughtful workspace.</p><div className="auth-illustration"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="illustration-card"><span className="illustration-icon"><ArrowUpRight size={29} /></span><small>YOUR NEXT CHAPTER</small><strong>Within reach.</strong><div className="illustration-line" /><span><Check size={15} /> Clear terms. Confident decisions.</span></div><span className="floating-check"><ShieldCheck size={29} /></span></div></div><div className="auth-story-footer"><ShieldCheck size={17} /> Secure by design. Built around you.</div></section>

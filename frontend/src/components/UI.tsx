@@ -1,8 +1,20 @@
 'use client';
 import { X, Search, ArrowUpRight, Inbox, AlertCircle } from 'lucide-react';
 import { useEffect, useRef, type ReactNode } from 'react';
+import { useNotify } from './Notifications';
 export function Badge({ status }: { status: string }) { return <span className={`badge ${status.toLowerCase().replaceAll(' ', '-')}`}><span />{({ APPLIED: 'Applied', SANCTIONED: 'Sanctioned', DISBURSED: 'Disbursed', CLOSED: 'Closed', REJECTED: 'Rejected' } as Record<string,string>)[status] || status}</span>; }
-export function ErrorBox({ message, failures = [] }: { message: string; failures?: string[] }) { return <div className="error-box" role="alert"><AlertCircle size={18} /><div>{message}{failures.length > 0 && <ul>{failures.map(f => <li key={f}>{f}</li>)}</ul>}</div></div>; }
+export function ErrorBox({ message, failures = [], inline = false }: { message: string; failures?: string[]; inline?: boolean }) {
+  const notify = useNotify();
+  const failuresKey = JSON.stringify(failures);
+  const previous = useRef('');
+  useEffect(() => {
+    const key = message + failuresKey;
+    if (!inline && message && previous.current !== key) notify({ kind: 'error', message, failures: JSON.parse(failuresKey) });
+    previous.current = key;
+  }, [message, failuresKey, inline, notify]);
+  if (!inline) return null;
+  return <div className="error-box" role="alert"><AlertCircle size={18} /><div>{message}{failures.length > 0 && <ul>{failures.map(f => <li key={f}>{f}</li>)}</ul>}</div></div>;
+}
 export function Empty({ title = 'You’re all caught up', detail = 'New records will appear here when they are ready.' }: { title?: string; detail?: string }) { return <div className="empty-state"><span><Inbox size={28} /></span><h3>{title}</h3><p>{detail}</p></div>; }
 export function SearchField({ value, onChange, placeholder = 'Search name, email or loan ID…' }: { value: string; onChange: (v: string) => void; placeholder?: string }) { return <label className="search-field"><Search size={17} /><input aria-label={placeholder} placeholder={placeholder} value={value} onChange={e => onChange(e.target.value)} />{value && <button type="button" aria-label="Clear search" onClick={() => onChange('')}><X size={14} /></button>}</label>; }
 export function Stat({ label, value, icon, note, accent = false }: { label: string; value: string | number; icon: ReactNode; note: string; accent?: boolean }) { return <div className={`stat-card ${accent ? 'accent' : ''}`}><div className="stat-top"><span>{label}</span><span className="stat-icon">{icon}</span></div><strong>{value}</strong><div className="stat-note"><span className="tiny-dot" />{note}</div></div>; }

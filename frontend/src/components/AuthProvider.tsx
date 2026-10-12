@@ -3,14 +3,16 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import type { User } from '@/lib/types';
+import { useNotify } from './Notifications';
 
 const AuthContext = createContext<{ user: User | null; loading: boolean; setUser: (user: User | null) => void; logout: () => Promise<void> }>({ user: null, loading: true, setUser: () => {}, logout: async () => {} });
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const notify = useNotify();
   useEffect(() => { api<{ user: User }>('/auth/me').then(d => setUser(d.user)).catch(() => setUser(null)).finally(() => setLoading(false)); }, []);
-  async function logout() { await api('/auth/logout', { method: 'POST' }); setUser(null); router.replace('/login'); }
+  async function logout() { await api('/auth/logout', { method: 'POST' }); setUser(null); notify({ kind: 'success', message: 'You have been signed out successfully.' }); router.replace('/login'); }
   return <AuthContext.Provider value={{ user, loading, setUser, logout }}>{children}</AuthContext.Provider>;
 }
 export const useAuth = () => useContext(AuthContext);
