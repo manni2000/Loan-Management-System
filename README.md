@@ -166,7 +166,7 @@ cd backend
 npm run demo
 ```
 
-The launcher starts a real local MongoDB process on port **27018**, seeds accounts and sample records, and starts the API. It uses its own database URI instead of the configured `MONGODB_URI`. Data persists in `backend/.local-data`, and salary slips persist in MongoDB. Start the frontend separately.
+The launcher starts a real local MongoDB process on port **27018**, creates role accounts, and starts the API. It uses its own database URI instead of the configured `MONGODB_URI`. Data persists in `backend/.local-data`, and salary slips persist in MongoDB. Start the frontend separately.
 
 Do not run backend `demo` and `dev` simultaneously. Stop the processes with Ctrl+C. The demo launcher is intended for local evaluation.
 
@@ -396,3 +396,9 @@ Production cookies require HTTPS. The default configuration does not support cro
 - PAN checks validate the character pattern only. File signatures do not provide full document parsing or malware scanning.
 
 For further details, see [backend/README.md](backend/README.md) and [frontend/README.md](frontend/README.md).
+
+## Live application data
+
+The seed creates only the six role accounts; it does not create sample borrowers, loans, payments, or salary slips. Dashboard totals and tables use MongoDB-backed API records. The login page no longer displays demo credentials.
+
+To remove fixtures from an earlier seed, run `npm run clean:demo` inside `backend`. Cleanup targets known seed identities and references, preserves other borrowers and loans, and keeps the role accounts. It uses the database configured in `backend/.env`.

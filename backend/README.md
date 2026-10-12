@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:3000**. The demo runs an actual MongoDB process on port 27018, seeds evaluation accounts and sample records, then starts Express on port 4000. MongoDB data persists inside `backend/.local-data`; salary slips persist in MongoDB. The first demo/test run may download a MongoDB binary. Stop with Ctrl+C. Do not start `demo` and `dev` for the backend at the same time.
+Open **http://localhost:3000**. The demo runs an actual MongoDB process on port 27018, creates evaluation role accounts, then starts Express on port 4000. MongoDB data persists inside `backend/.local-data`; salary slips persist in MongoDB. The first demo/test run may download a MongoDB binary. Stop with Ctrl+C. Do not start `demo` and `dev` for the backend at the same time.
 
 For an installed MongoDB or Atlas, set `MONGODB_URI` in `.env`, run `npm run seed`, then `npm run dev`. A standalone MongoDB works; transactions and a replica set are unnecessary because each payment updates one loan atomically.
 
@@ -114,3 +114,9 @@ Set the Vercel project's **Root Directory** to `backend`. The included `vercel.j
 Set `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` in Vercel's environment settings; optionally set `MONGODB_DNS_SERVERS`. Configure the frontend's `NEXT_PUBLIC_API_URL` to the deployed API URL including `/api`, and use HTTPS and the production cookie configuration described above.
 
 Salary slips are stored as binary data in MongoDB, excluded from ordinary user queries and available only through the authorized document endpoint. No upload directory or additional storage credentials are needed for new uploads. Legacy disk documents remain readable locally; re-upload missing legacy files before applying. The application validates a 5 MB limit, but Vercel Functions cap request and response bodies at 4.5 MB (including multipart overhead); larger files require a direct object-storage upload flow or hosting without this limit. See [Vercel limits](https://vercel.com/docs/functions/limitations).
+
+## Live application data
+
+The seed creates only the six role accounts; it does not create sample borrowers, loans, payments, or salary slips. Dashboard totals and tables use MongoDB-backed API records. The login page no longer displays demo credentials.
+
+To remove fixtures from an earlier seed, run `npm run clean:demo` inside `backend`. Cleanup targets known seed identities and references, preserves other borrowers and loans, and keeps the role accounts. It uses the database configured in `backend/.env`.
