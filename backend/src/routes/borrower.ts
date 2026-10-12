@@ -1,10 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
 import { randomUUID } from 'node:crypto';
-import { mkdir, writeFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
-import { config } from '../config.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { User, publicUser } from '../models/User.js';
 import { Loan, serializeLoan } from '../models/Loan.js';
@@ -37,13 +35,9 @@ borrower.post('/salary-slip', upload.single('file'), async (req, res) => {
   ];
   const format = formats.find(f => f.matches && f.mime === file.mimetype);
   if (!format || !/\.(pdf|jpe?g|png)$/i.test(file.originalname)) { res.status(422).json({ message: 'Upload a valid PDF, JPG, or PNG file (max 5 MB).' }); return; }
-  await mkdir(config.uploads, { recursive: true });
   const filename = randomUUID() + format.ext;
-  await writeFile(path.join(config.uploads, filename), file.buffer, { flag: 'wx' });
-  let user;
-  try {
-    user = await User.findByIdAndUpdate(req.user._id, { $set: { salarySlip: { filename, originalName: path.basename(file.originalname), mime: format.mime, size: file.size } } }, { new: true });
-  } catch (error) { await unlink(path.join(config.uploads, filename)).catch(() => {}); throw error; }
+  // Persist the bounded document in MongoDB: serverless filesystems are not durable.
+  const user = await User.findByIdAndUpdate(req.user._id, { $set: { salarySlip: { filename, originalName: path.basename(file.originalname), mime: format.mime, size: file.size, data: file.buffer } } }, { new: true });
   res.status(201).json({ user: publicUser(user) });
 });
 borrower.post('/loans', async (req, res) => {

@@ -166,7 +166,7 @@ cd backend
 npm run demo
 ```
 
-The launcher starts a real local MongoDB process on port **27018**, seeds accounts and sample records, and starts the API. It uses its own database URI instead of the configured `MONGODB_URI`. Data persists in `backend/.local-data`, and documents persist in `backend/uploads`. Start the frontend separately.
+The launcher starts a real local MongoDB process on port **27018**, seeds accounts and sample records, and starts the API. It uses its own database URI instead of the configured `MONGODB_URI`. Data persists in `backend/.local-data`, and salary slips persist in MongoDB. Start the frontend separately.
 
 Do not run backend `demo` and `dev` simultaneously. Stop the processes with Ctrl+C. The demo launcher is intended for local evaluation.
 
@@ -382,7 +382,7 @@ Both production builds and all seven backend tests passed during the project rev
 3. Set frontend `NEXT_PUBLIC_API_URL` before building.
 4. Build both applications and run `npm start` in each directory.
 5. Serve the frontend and API over HTTPS on the same site for the default cookie policy.
-6. Persist `backend/uploads`, or replace local uploads with private object storage.
+6. Salary slips persist in MongoDB. Preserve `backend/uploads` only for legacy local documents.
 
 Production cookies require HTTPS. The default configuration does not support cross-site frontend/API cookie deployments. Use standard database startup rather than the demo launcher in production.
 

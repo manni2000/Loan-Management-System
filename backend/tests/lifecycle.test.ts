@@ -60,7 +60,13 @@ test('complete lifecycle validates eligibility, upload, decisions, unique UTR an
   assert.equal((await borrower.post('/api/borrower/loans').send({amount:100000,tenure:365})).status,409);
   assert.equal((await borrower.put('/api/borrower/personal').send(details)).status,409);
   assert.equal((await agents.Sales.get(`/api/documents/${borrowerId}`)).status,403);
-  assert.equal((await agents.Sanction.get(`/api/documents/${borrowerId}`)).status,200);
+  const document = await agents.Sanction.get(`/api/documents/${borrowerId}`);
+  assert.equal(document.status,200);
+  assert.equal(document.headers['content-type'],'application/pdf');
+  assert.equal(document.body.toString(),'%PDF-1.4\nTest');
+  const storedUser = await User.findById(borrowerId);
+  assert.equal(storedUser!.salarySlip!.data,undefined);
+  assert.equal((await User.findById(borrowerId).select('+salarySlip.data'))!.salarySlip!.data!.toString(),'%PDF-1.4\nTest');
   assert.equal((await agents.Disbursement.patch(`/api/disbursement/loans/${id}/disburse`).send({})).status,409);
   assert.equal((await agents.Collection.post(`/api/collection/loans/${id}/payments`).send({utr:'TESTUTR1',amount:1,date:'2026-10-10'})).status,409);
   assert.equal((await agents.Sanction.patch(`/api/sanction/loans/${id}/decision`).send({decision:'reject',reason:''})).status,422);

@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:3000**. The demo runs an actual MongoDB process on port 27018, seeds evaluation accounts and sample records, then starts Express on port 4000. MongoDB data persists inside `backend/.local-data`; documents persist inside `backend/uploads`. The first demo/test run may download a MongoDB binary. Stop with Ctrl+C. Do not start `demo` and `dev` for the backend at the same time.
+Open **http://localhost:3000**. The demo runs an actual MongoDB process on port 27018, seeds evaluation accounts and sample records, then starts Express on port 4000. MongoDB data persists inside `backend/.local-data`; salary slips persist in MongoDB. The first demo/test run may download a MongoDB binary. Stop with Ctrl+C. Do not start `demo` and `dev` for the backend at the same time.
 
 For an installed MongoDB or Atlas, set `MONGODB_URI` in `.env`, run `npm run seed`, then `npm run dev`. A standalone MongoDB works; transactions and a replica set are unnecessary because each payment updates one loan atomically.
 
@@ -103,7 +103,7 @@ npm run build
 
 Tests use isolated, temporary MongoDB data and upload storage. They exercise all role/module combinations, password hashing, registration role escalation prevention, eligibility boundaries, file validation, state transitions, exact loan math, duplicate UTRs across loans, overpayment, concurrent final payments, rejection, and logout/origin protection.
 
-For production: configure a private MongoDB, strong JWT_SECRET, `NODE_ENV=production`, explicit `FRONTEND_URL`, and frontend `NEXT_PUBLIC_API_URL`; build both apps, use `npm start` in each, and serve both through HTTPS. The API rejects unapproved browser origins and allows cross-site mutations only from the configured FRONTEND_URL origin. Production session cookies use SameSite=None and Secure for separate frontend/API domains; browsers must allow cross-site cookies. Persist the backend upload directory or replace local storage with private object storage. Do not run the local demo launcher in production.
+For production: configure a private MongoDB, strong JWT_SECRET, `NODE_ENV=production`, explicit `FRONTEND_URL`, and frontend `NEXT_PUBLIC_API_URL`; build both apps, use `npm start` in each, and serve both through HTTPS. The API rejects unapproved browser origins and allows cross-site mutations only from the configured FRONTEND_URL origin. Production session cookies use SameSite=None and Secure for separate frontend/API domains; browsers must allow cross-site cookies. New salary slips are stored in MongoDB; legacy local documents still require their upload directory. Do not run the local demo launcher in production.
 
 UI verification in this environment consisted of a successful Next.js production build and HTTP checks; automated browser visual verification was unavailable.
 
@@ -113,4 +113,4 @@ Set the Vercel project's **Root Directory** to `backend`. The included `vercel.j
 
 Set `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` in Vercel's environment settings; optionally set `MONGODB_DNS_SERVERS`. Configure the frontend's `NEXT_PUBLIC_API_URL` to the deployed API URL including `/api`, and use HTTPS and the production cookie configuration described above.
 
-The current salary-slip implementation writes to local disk. It must be replaced with durable private object storage for Vercel: the deployed application filesystem is read-only and temporary storage is not persistent. The existing upload implementation is not production-ready on Vercel. See [Vercel's filesystem guidance](https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions).
+Salary slips are stored as binary data in MongoDB, excluded from ordinary user queries and available only through the authorized document endpoint. No upload directory or additional storage credentials are needed for new uploads. Legacy disk documents remain readable locally; re-upload missing legacy files before applying. The application validates a 5 MB limit, but Vercel Functions cap request and response bodies at 4.5 MB (including multipart overhead); larger files require a direct object-storage upload flow or hosting without this limit. See [Vercel limits](https://vercel.com/docs/functions/limitations).

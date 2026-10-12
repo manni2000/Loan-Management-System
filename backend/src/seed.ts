@@ -40,7 +40,7 @@ for (let i = 0; i < examples.length; i++) {
   if (await User.exists({ email })) continue;
   const user = await User.create({ name, email, password, role: 'Borrower',
     ...(status === 'LEAD' && i % 2 === 0 ? {} : { personal: { fullName: name, pan: 'ABCPD1234E', dob: '1993-06-15', monthlySalary: 45000 + i * 3000, employment: 'Salaried' } }),
-    ...(status !== 'LEAD' ? { salarySlip: { filename: 'sample-salary-slip.pdf', originalName: 'salary-slip.pdf', mime: 'application/pdf', size: Buffer.byteLength(pdf) } } : {}),
+    ...(status !== 'LEAD' ? { salarySlip: { filename: 'sample-salary-slip.pdf', originalName: 'salary-slip.pdf', mime: 'application/pdf', size: Buffer.byteLength(pdf), data: Buffer.from(pdf) } } : {}),
     createdAt: new Date(Date.now() - (i + 1) * 86400000),
   });
   if (status === 'LEAD') continue;

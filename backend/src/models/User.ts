@@ -12,7 +12,7 @@ const userSchema = new Schema({
   password: { type: String, required: true, select: false },
   role: { type: String, enum: roles, default: 'Borrower', required: true },
   personal: personalSchema,
-  salarySlip: { filename: String, originalName: String, mime: String, size: Number },
+  salarySlip: { filename: String, originalName: String, mime: String, size: Number, data: { type: Buffer, select: false } },
 }, { timestamps: true });
 export const User = model('User', userSchema);
 export function publicUser(user: any) {

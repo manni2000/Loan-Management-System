@@ -74,9 +74,16 @@ app.get('/api/documents/:userId', authenticate, async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.userId)) { res.status(400).json({ message: 'Invalid user ID.' }); return; }
   const isOwner = req.user.role === 'Borrower' && String(req.user._id) === req.params.userId;
   if (!isOwner && !['Admin','Sanction'].includes(req.user.role)) { res.status(403).json({ message: 'You do not have access to this document.' }); return; }
-  const user = await User.findById(req.params.userId);
+  const user = await User.findById(req.params.userId).select('+salarySlip.data');
   if (!user?.salarySlip?.filename) { res.status(404).json({ message: 'Document not found.' }); return; }
   res.setHeader('Cache-Control', 'private, no-store');
+  if (user.salarySlip.data) {
+    res.attachment(user.salarySlip.originalName || 'salary-slip');
+    res.type(user.salarySlip.mime || 'application/octet-stream');
+    res.send(user.salarySlip.data);
+    return;
+  }
+  // Keep downloads working for existing locally stored documents.
   res.download(path.join(config.uploads, user.salarySlip.filename), user.salarySlip.originalName || 'salary-slip', error => {
     if (error && !res.headersSent) res.status(404).json({ message: 'Document file is unavailable.' });
   });
