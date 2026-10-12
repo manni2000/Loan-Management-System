@@ -8,7 +8,7 @@
   margin: 0;
   border: 0;
 }
-.eligibility-loading-backdrop { z-index: 150; }
+.eligibility-loading-backdrop { z-index: 150; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .eligibility-loading {
   width: min(420px, 100%);
   padding: 32px 28px;
@@ -40,6 +40,15 @@
   .eligibility-loading .spin, .eligibility-loading-dots i { animation: none; }
 }
 
+.notification-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: #102d2440;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
 .notification-stack {
   position: fixed;
   top: 50%;

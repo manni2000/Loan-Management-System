@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react';
 
-type NoticeInput = { kind: 'success' | 'error' | 'info'; message: string; failures?: string[] };
+type NoticeInput = { kind: 'success' | 'error' | 'info'; title?: string; message: string; failures?: string[] };
 type Notice = NoticeInput & { id: number };
 const NoticeContext = createContext<(notice: NoticeInput) => void>(() => {});
 export const useNotify = () => useContext(NoticeContext);
@@ -20,6 +20,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   }, []);
   const dismiss = useCallback((id: number) => setNotices(current => current.filter(n => n.id !== id)), []);
   return <NoticeContext.Provider value={notify}>{children}
+    {notices.length > 0 && <div className="notification-backdrop" aria-hidden="true" />}
     <div className="notification-stack" aria-label="Notifications">
       {notices.map(notice => <NotificationCard key={notice.id} notice={notice} dismiss={dismiss} />)}
     </div>
@@ -37,7 +38,7 @@ function NotificationCard({ notice, dismiss }: { notice: Notice; dismiss: (id: n
   return <section className={`notification-card ${notice.kind}`} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false); }}>
     <span className="notification-icon"><Icon size={22} /></span>
     <div className="notification-copy" role={notice.kind === 'error' ? 'alert' : 'status'} aria-atomic="true">
-      <strong>{notice.kind === 'error' ? 'Please check your details' : notice.kind === 'success' ? 'Success' : 'Notice'}</strong>
+      <strong>{notice.title || (notice.kind === 'error' ? 'Please check your details' : notice.kind === 'success' ? 'Success' : 'Notice')}</strong>
       <p>{notice.message}</p>
       {!!notice.failures?.length && <ul>{notice.failures.map((failure, index) => <li key={index}>{failure}</li>)}</ul>}
     </div>
