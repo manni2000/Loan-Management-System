@@ -1,4 +1,23 @@
 /* Layout refinements shared by authentication, borrower and operations pages. */
+.workspace-title {
+  margin-top: 28px;
+  padding: 0 14px;
+}
+
+.workspace-title strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3b4c46;
+}
+
+.workspace-title small {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #939b97;
+}
+
 .main-wrapper,
 .main-content,
 .panel,
@@ -172,7 +191,7 @@
   .main-wrapper { margin-left: 0; }
   .topbar { min-height: 72px; height: auto; padding: 18px 24px 18px 65px; gap: 12px; }
   .main-content { padding: 28px 24px; }
-  .nav-item { min-height: 44px; font-size: 13px; }
+  .nav-item { min-height: 44px; font-size: 15px; }
   .application-grid { grid-template-columns: minmax(0, 1fr); }
   .application-aside { grid-template-columns: minmax(0, 1fr); }
   .quote-card { width: 100%; }
@@ -191,75 +210,75 @@
   .page-heading { align-items: flex-start; }
   .page-heading h1 { font-size: clamp(24px, 5.5vw, 30px); }
   .page-heading > .btn,
-  .heading-actions .btn { min-height: 44px; font-size: 12px; }
+  .heading-actions .btn { min-height: 44px; font-size: 15px; }
   .section-heading { padding: 18px 16px; }
   .section-heading h2 { font-size: 15px; }
-  .section-heading p { font-size: 12px; }
+  .section-heading p { font-size: 15px; }
   .stats-grid.three { grid-template-columns: minmax(0, 1fr); }
   .stats-grid.three .stat-card { display: block; }
   .stats-grid.three .stat-card > strong { margin: 10px 0; font-size: 27px; }
   .stats-grid.three .stat-icon { display: flex; }
-  .stat-top { font-size: 12px; }
+  .stat-top { font-size: 15px; }
   .stat-note,
-  .stats-grid.three .stat-note { font-size: 11px; }
-  .module-card h3 { font-size: 14px; }
-  .module-card p { font-size: 12px; line-height: 1.7; }
-  .module-card-link { font-size: 11px; }
+  .stats-grid.three .stat-note { font-size: 14px; }
+  .module-card h3 { font-size: 16px; }
+  .module-card p { font-size: 15px; line-height: 1.7; }
+  .module-card-link { font-size: 14px; }
   .table-toolbar { padding: 0 16px 18px; flex-direction: column; align-items: stretch; }
   .table-toolbar .search-field { flex: none; width: 100%; max-width: none; min-height: 44px; }
   .search-field input { font-size: 16px; }
-  .filter-tabs button { min-height: 40px; font-size: 12px; }
-  th, td { padding-inline: 16px; font-size: 12px; }
-  th { font-size: 11px; }
-  .person-cell strong { font-size: 12px; }
-  .person-cell small { font-size: 11px; }
-  .badge { font-size: 11px; }
-  .table-action { min-height: 44px; font-size: 12px; }
-  .table-footer { gap: 12px; font-size: 11px; }
+  .filter-tabs button { min-height: 40px; font-size: 15px; }
+  th, td { padding-inline: 16px; font-size: 15px; }
+  th { font-size: 14px; }
+  .person-cell strong { font-size: 15px; }
+  .person-cell small { font-size: 14px; }
+  .badge { font-size: 14px; }
+  .table-action { min-height: 44px; font-size: 15px; }
+  .table-footer { gap: 12px; font-size: 14px; }
   .pagination button { width: 44px; height: 44px; }
-  .text-button { min-height: 44px; font-size: 12px; }
+  .text-button { min-height: 44px; font-size: 15px; }
   .form-row,
   .modal .form-row { grid-template-columns: minmax(0, 1fr); }
   .form-stack label,
-  .form-label { font-size: 13px; }
+  .form-label { font-size: 15px; }
   .form-stack input:not([type=checkbox]):not([type=range]),
   .form-stack select,
   .form-label textarea { font-size: 16px; min-height: 46px; }
-  .form-stack label small { font-size: 11px; }
+  .form-stack label small { font-size: 14px; }
   .btn { min-height: 44px; }
   .form-bottom { flex-wrap: wrap; gap: 12px; }
-  .form-bottom .btn { width: 100%; white-space: normal; font-size: 13px; }
+  .form-bottom .btn { width: 100%; white-space: normal; font-size: 15px; }
   .application-stepper { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
   .application-stepper > div { flex-direction: row; align-items: center; }
-  .application-stepper strong { font-size: 11px; }
-  .application-stepper small { font-size: 9px; }
+  .application-stepper strong { font-size: 14px; }
+  .application-stepper small { font-size: 12px; }
   .application-stepper .step-line { display: none; }
-  .application-panel .section-heading p { font-size: 12px; }
+  .application-panel .section-heading p { font-size: 15px; }
   .slider-block > div { gap: 12px; flex-wrap: wrap; }
-  .slider-block label { font-size: 13px; }
+  .slider-block label { font-size: 15px; }
   .slider-block input { margin-block: 16px; height: 8px; }
   .slider-block input::-webkit-slider-thumb { width: 26px; height: 26px; }
   .slider-block input::-moz-range-thumb { width: 18px; height: 18px; }
-  .checkbox-label { font-size: 12px; }
-  .rate-callout p { font-size: 12px; }
+  .checkbox-label { font-size: 15px; }
+  .rate-callout p { font-size: 15px; }
   .loan-status-banner { flex-wrap: wrap; }
   .loan-status-banner > div { flex: 1; min-width: 0; }
   .loan-status-banner > .badge { position: static; margin-left: 52px; }
-  .loan-status-banner p { font-size: 12px; }
+  .loan-status-banner p { font-size: 15px; }
   .modal { padding: 26px 20px; }
   .modal-close { width: 44px; height: 44px; top: 5px; right: 5px; align-items: center; justify-content: center; }
   .loan-modal-heading { align-items: flex-start; flex-wrap: wrap; }
   .detail-grid { gap: 18px 12px; }
-  .detail-grid small { font-size: 12px; }
-  .detail-grid strong { font-size: 13px; }
+  .detail-grid small { font-size: 15px; }
+  .detail-grid strong { font-size: 15px; }
   .decision-buttons { flex-direction: column; }
-  .decision-buttons .btn { font-size: 13px; }
+  .decision-buttons .btn { font-size: 15px; }
   .modal-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
   .modal-actions .btn { white-space: normal; width: 100%; }
   .auth-form-side { padding: 28px 20px; }
-  .auth-tabs button { min-height: 44px; font-size: 14px; }
-  .auth-form-wrapper > .muted { font-size: 14px; }
-  .demo-role-grid button { min-height: 44px; font-size: 11px; }
+  .auth-tabs button { min-height: 44px; font-size: 16px; }
+  .auth-form-wrapper > .muted { font-size: 16px; }
+  .demo-role-grid button { min-height: 44px; font-size: 14px; }
   .password-field button { width: 44px; height: 44px; right: 2px; top: 1px; align-items: center; justify-content: center; }
 }
 
@@ -270,7 +289,7 @@
   .module-grid.single { grid-template-columns: minmax(0, 1fr); }
   .pipeline-stages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
   .pipeline-connector { display: none; }
-  .pipeline-stage > small { font-size: 10px; }
+  .pipeline-stage > small { font-size: 13px; }
   .detail-grid { grid-template-columns: minmax(0, 1fr); }
   .demo-role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chart-total > span { display: block; margin: 5px 0 0; }
@@ -286,4 +305,67 @@
 @media (prefers-reduced-motion: reduce) {
   .sidebar, .module-card, .chart-bar, .btn { transition: none; }
   .module-card:hover { transform: none; }
+}
+
+/* A readable type hierarchy across all workspaces, without browser zoom. */
+body { font-size: 16px; line-height: 1.6; }
+.page-heading h1 { font-size: clamp(28px, 2.4vw, 36px); line-height: 1.25; }
+.page-heading p { font-size: 15px; line-height: 1.65; }
+.section-heading h2, .application-panel .section-heading h2 { font-size: 20px; line-height: 1.4; }
+.section-heading p, .application-panel .section-heading p { font-size: 14px; line-height: 1.6; }
+.eyebrow, .page-heading .eyebrow { font-size: 12px; letter-spacing: 1.2px; }
+.nav-item { font-size: 15px; min-height: 46px; }
+.nav-label { font-size: 12px; }
+.workspace-title strong { font-size: 15px; }
+.workspace-title small { font-size: 13px; }
+.sidebar-user strong { font-size: 14px; }
+.sidebar-user small { font-size: 13px; }
+.breadcrumb, .role-pill { font-size: 13px; }
+.stat-top { font-size: 14px; }
+.stat-note, .stats-grid.three .stat-note { font-size: 13px; line-height: 1.5; }
+.module-card h3 { font-size: 17px; }
+.module-card p { font-size: 14px; max-width: none; }
+.module-card-link { font-size: 13px; }
+.btn, .form-bottom .btn, .heading-actions .btn, .page-heading > .btn { font-size: 14px; min-height: 44px; }
+.text-button, .table-action { font-size: 14px; }
+.form-stack label, .form-label { font-size: 14px; }
+.form-stack input:not([type=checkbox]):not([type=range]), .form-stack select, .form-label textarea { font-size: 16px; min-height: 46px; }
+.form-stack input::placeholder, .form-label textarea::placeholder { font-size: 14px; }
+.form-stack label small { font-size: 13px; }
+.search-field input { font-size: 14px; }
+.search-field { min-height: 44px; }
+.filter-tabs button { font-size: 13px; min-height: 40px; }
+table, td { font-size: 14px; }
+th { font-size: 13px; }
+.person-cell strong { font-size: 14px; }
+.person-cell small { font-size: 13px; }
+.badge, .loan-reference { font-size: 13px; }
+.modal-section-title { font-size: 16px; }
+.detail-grid small { font-size: 13px; }
+.detail-grid strong { font-size: 15px; }
+.modal > p, .confirmation-note { font-size: 14px; }
+.auth-form-wrapper > .muted { font-size: 15px; }
+.auth-note, .demo-accounts > small { font-size: 12px; line-height: 1.6; }
+.auth-form-wrapper .error-box { font-size: 14px; }
+.slider-block label { font-size: 15px; }
+.checkbox-label { font-size: 14px; }
+.pipeline-stage > span:not(.pipeline-connector) { font-size: 14px; }
+.pipeline-stage > small { font-size: 12px; }
+.application-stepper strong { font-size: 13px; }
+.application-stepper small { font-size: 12px; }
+.chart-total > span { display: block; font-size: 13px; margin: 5px 0 0; }
+.bar-chart { margin-top: 15px; }
+
+@media (max-width: 640px) {
+  .demo-role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pipeline-stages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .pipeline-connector { display: none; }
+  .search-field input { font-size: 16px; }
+  .loan-status-banner > .badge { font-size: 13px; }
+  .decision-buttons .btn { font-size: 14px; }
+  .application-stepper { gap: 18px 10px; }
+  .application-stepper > div { gap: 8px; }
+  .sidebar-user strong { font-size: 14px; }
+  .auth-note { align-items: flex-start; }
+  .auth-note svg { flex-shrink: 0; margin-top: 3px; }
 }
