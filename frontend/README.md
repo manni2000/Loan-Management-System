@@ -180,3 +180,7 @@ For a manual review, test borrower registration and application submission, each
 | A workspace is restricted | Verify that the signed-in account has the required role |
 
 For production, serve the frontend and API over HTTPS on the same site, configure the backend's `FRONTEND_URL`, and rebuild with the intended API URL. The default backend cookie policy does not support cross-site frontend/API deployments.
+
+## Session routing
+
+Browser API and document requests use `/api` on the frontend domain. Next.js rewrites forward them to Express while keeping the HttpOnly session cookie on the frontend origin. Set frontend `BACKEND_API_URL=https://lms-backend-seven-pied.vercel.app/api` for production (or `http://localhost:4000/api` for development); the existing `NEXT_PUBLIC_API_URL` is also supported as the upstream setting. Backend `FRONTEND_URL` must match the exact frontend origin, and `NODE_ENV=production` must be set on the deployed backend. Redeploy the frontend after changing the upstream URL. Registration/login verifies the session before opening the portal.

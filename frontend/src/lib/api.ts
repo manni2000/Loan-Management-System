@@ -1,4 +1,5 @@
-export const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+// Keep session cookies on the frontend origin; Next.js proxies to Express.
+export const API = '/api';
 export class ApiError extends Error {
   constructor(public status: number, message: string, public failures: string[] = []) { super(message); }
 }
