@@ -117,6 +117,6 @@ Salary slips are stored as binary data in MongoDB, excluded from ordinary user q
 
 ## Live application data
 
-The seed creates only the six role accounts; it does not create sample borrowers, loans, payments, or salary slips. Dashboard totals and tables use MongoDB-backed API records. The login page no longer displays demo credentials.
+The seed creates only the six role accounts; it does not create sample borrowers, loans, payments, or salary slips. Dashboard totals and tables use MongoDB-backed API records. The login page provides role shortcuts for all six evaluator accounts. The seed creates accounts only, without sample loan activity.
 
 To remove fixtures from an earlier seed, run `npm run clean:demo` inside `backend`. Cleanup targets known seed identities and references, preserves other borrowers and loans, and keeps the role accounts. It uses the database configured in `backend/.env`.
