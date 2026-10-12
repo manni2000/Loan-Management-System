@@ -8,6 +8,30 @@
   margin: 0;
   border: 0;
 }
+.loan-config.eligibility-fields {
+  padding: 20px 28px 28px;
+  gap: 28px;
+}
+.loan-config .slider-block { margin-bottom: 0; }
+.loan-config .slider-block > div {
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.loan-config .slider-block label { font-size: 16px; line-height: 1.5; }
+.loan-config .slider-block strong {
+  font-size: clamp(24px, 2vw, 30px);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #17664f;
+}
+.loan-config .slider-block > span { margin-top: 18px; }
+.loan-config .slider-block > span small { font-size: 14px; }
+.loan-config .rate-callout { margin: 0; }
+@media (max-width: 640px) {
+  .loan-config.eligibility-fields { padding: 16px 19px 24px; gap: 26px; }
+  .loan-config .slider-block label { font-size: 15px; }
+}
 .eligibility-loading-backdrop { z-index: 150; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .eligibility-loading {
   width: min(420px, 100%);
