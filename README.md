@@ -2,6 +2,10 @@
 
 A full-stack lending platform that connects borrower applications with internal loan operations. Borrowers submit personal details, verify eligibility, upload income documentation, and request a loan. Internal teams review applications, release approved funds, and record repayments through role-specific workspaces.
 
+## Demo preview
+
+Access drive link - https://drive.google.com/file/d/1U5ClSKw2Pey7FDts-71poQk1FHVb9_ad/view?usp=sharing
+
 ## Contents
 
 - [Features](#features)
